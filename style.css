@@ -30,6 +30,7 @@ body {
     width: 20rem;
     border: 2px solid rgb(57, 203, 226);
     pointer-events: none;
+    font-size: 2rem;
 }
 
 .keys {
