@@ -7,6 +7,10 @@ function sub(a, b) {
     return +a - +b
 }
 function div(a, b) {
+    if (+b === 0) {
+        alert("Bro you divide by zero it's impossible or infinite i forgot anywhos do something else !")
+        return clear()
+    }
     return +a / +b
 }
 function mult(a, b) {
@@ -43,8 +47,17 @@ keys.addEventListener('click', clicKey)
 
 let displayValue = ""
 
-function updateDisplay() {
+let firstNum = 0
+let operator = ''
+
+function updateDisplay(op) {
     const display = document.querySelector('.display')
+    if ( operators.includes(op)) {
+        firstNum = displayValue
+        displayValue = ''
+        display.value = displayValue
+        return
+    }
     display.value = displayValue
   }
 
@@ -52,17 +65,9 @@ const operators = ['-', '+', '/', '*']
 
 function clear() {
     displayValue = ""
+    firstNum = ""
+    operator = ""
     updateDisplay()
-}
-
-function getOperator(str) {
-    for (const char of str) {
-        if (operators.includes(char)) return char
-    }
-}
-
-function getNums(str, operator) {
-    return str.split(operator)
 }
 
 function input(val) {
@@ -71,19 +76,29 @@ function input(val) {
             clear()
             break;
         case '=':
-            const operator = getOperator(displayValue)
-            console.log(operator);
-            
-            const [firstNum, secondNum] = getNums(displayValue, operator)
-            console.log(firstNum);
-            console.log(secondNum);
-            
-            
-            const result = operate(operator, firstNum, secondNum)
-            console.log(result);
-            
+            const result = operate(operator, firstNum, displayValue)
             displayValue = result
+            if (result === undefined) {
+                clear()
+                break
+            }
             updateDisplay()
+            break;
+        case '+':
+            operator = '+'
+            updateDisplay('+')
+            break;
+        case '-':
+            operator = '-'
+            updateDisplay('-')
+            break;
+        case '/':
+            operator = '/'
+            updateDisplay('/')
+            break;
+        case '*':
+            operator = '*'
+            updateDisplay('*')
             break;
         default:
             displayValue += val
